@@ -7,6 +7,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+# User Specific VCS Mapping
+.idea/vcs.xml
+
 # AWS User-specific
 .idea/**/aws.xml
 
