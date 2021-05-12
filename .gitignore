@@ -32,3 +32,6 @@
 # Other
 .idea_modules/
 *.iml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/javascript-project.iml
