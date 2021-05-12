@@ -1,21 +1,10 @@
-# Backend Rails API
+# Twitter Clone
+Just a basic twitter clone.
 
----
-
-## Models
-All of the models with their associations.
-
-### Post
-* has a name field for the poster
-* has a field for likes (integer)
-* has many comments
-
-### Comment
-* Name field for the person leaving the comment
-* Content field for the actual comment.
-* Belongs to a Post
-
-## Routes
-```RUBY
-    resource :posts, only: [:index, :show, :update]
-```
+## How This Is Different
+* There is no user authentication and is only submitted via form data on the frontend
+    * Thus no profile views are made and soley can view posts with related comments
+    * Users cannot perform Update and Delete actions on their posts/comments
+    
+* Functionality on this site is limited soley to the C & R of CRUD operations.
+    * With the exception of U (Update) when they like a certain post.

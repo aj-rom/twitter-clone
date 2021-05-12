@@ -1,24 +1,21 @@
-# README
+# Backend Rails API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+---
 
-Things you may want to cover:
+## Models
+All of the models with their associations.
 
-* Ruby version
+### Post
+* has a name field for the poster
+* has a field for likes (integer)
+* has many comments
 
-* System dependencies
+### Comment
+* Name field for the person leaving the comment
+* Content field for the actual comment.
+* Belongs to a Post
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Routes
+```RUBY
+    resource :posts, only: [:index, :show, :update]
+```
