@@ -1,6 +1,8 @@
 # Backend Rails API
 
----
+This hold all of the backend related systems for the `twitter-clone`. Below is a description of models and their relations, as well as some other information on the backend systems.
+
+--- 
 
 ## Models
 All of the models with their associations.
