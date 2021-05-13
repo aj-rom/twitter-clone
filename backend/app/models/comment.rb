@@ -1,3 +1,3 @@
 class Comment < ApplicationRecord
-  belongs_to :post, dependent: true
+  belongs_to :post, dependent: :destroy
 end
