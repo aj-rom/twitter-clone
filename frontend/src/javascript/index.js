@@ -11,7 +11,7 @@ class Content {
 
     createdAt() {
         let date = this._createdAt.substring(0, 10).split('-')
-        return `${date[1]}/${date[2]}/${date[0]}`
+        return `( ${date[1]}/${date[2]}/${date[0]} )`
     }
 }
 
@@ -29,7 +29,7 @@ class Post extends Content {
         article.classList.add('post')
 
         let h2 = document.createElement('h2')
-        h2.innerText = this.name
+        h2.innerText = this.name + " " + this.createdAt()
 
         let p = document.createElement('p')
         p.innerText = this.content
