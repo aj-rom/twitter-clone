@@ -7,9 +7,10 @@ Just a basic twitter clone.
 2. Open your command line interface and move into our new directory:
    1. `> cd twitter-clone`
 3. Start up the backend server.
-   1. `> cd backend`
-   2. `> bundle install`
-   3. `> rails s`
+   1. `> cd backend` - To move into our backend application directory.
+   2. `> bundle install` - To install necessary gems.
+   3. `> rails db:setup` - To setup and seed our database.
+   4. `> rails start` or `> rails s` - Starts the Rails backend server.
 4. Go ahead and navigate to the [frontend directory](/frontend)  
 5. Open up [index.html](/frontend/index.html)
 6. Start interacting with the site!
