@@ -96,6 +96,10 @@ function handleError(e) {
     console.log("An error has occurred! We can't seme to communicate with our backend server at the moment.", e)
 }
 
+function handleLikes() {
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAllPosts()
+    fetchAllPosts().then(handleLikes())
 })
