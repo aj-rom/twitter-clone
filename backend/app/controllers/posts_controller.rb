@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_action :get_post, only: %i[show update]
 
   def index
-    render json: PostSerializer.new(Post.all).to_h
+    latest_posts = Post.order('created_at DESC')
+    render json: PostSerializer.new(latest_posts).to_h
   end
 
   def show
