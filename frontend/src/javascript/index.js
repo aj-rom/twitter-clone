@@ -35,17 +35,19 @@ class Post extends Content {
         p.innerText = this.content
 
         let ul = document.createElement('ul')
-        ul.classList.add('comments')
+        if (this.comments.length > 0) {
+            ul.classList.add('comments')
 
-        // ADD LIKE BUTTON
+            // ADD LIKE BUTTON
 
-        // Display Comments
-        // { name: '', content: '', created_at: '' }
-        this.comments.forEach(e => {
-            let comment = new Comment(e.name, e.content, e.created_at)
+            // Display Comments
+            // { name: '', content: '', created_at: '' }
+            this.comments.forEach(e => {
+                let comment = new Comment(e.name, e.content, e.created_at)
 
-            ul.append(comment.toListItem())
-        })
+                ul.append(comment.toListItem())
+            })
+        }
 
         article.append(h2, p, ul)
         card.append(article)
@@ -77,7 +79,6 @@ class Comment extends Content {
 function renderCard(post) {
     const card = post.toCard()
     document.getElementById('posts').append(card)
-    console.log("Appended To Main Post List", card)
 }
 
 function renderPosts(posts) {
