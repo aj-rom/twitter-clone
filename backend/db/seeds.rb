@@ -11,3 +11,5 @@ post1.comments.build(name: 'Derek H.', content: 'Wow I left a comment, maybe I s
 
 post2 = Post.create(name: 'Derek H.', content: 'My first post! Leave a like and a comment :)')
 post2.comments.build(name: 'AJ Romaniello', content: 'Welcome to the site!').save
+
+post3 = Post.create(name: 'Steven Milner', content: 'I love coding in ruby, but javascript is pretty cool too...')
