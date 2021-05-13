@@ -1,7 +1,8 @@
-
+/* Global Styling */
 :root {
     --background: #000;
     --primary: #1da1f2;
+    --secondary: #1d96f2;
 }
 
 body {
@@ -9,6 +10,7 @@ body {
     color: white;
 }
 
+/* Navigation */
 nav ul {
     margin-left: 0
 }
@@ -17,6 +19,7 @@ nav li {
     font-size: xxx-large;
 }
 
+/* Cards */
 div.card {
     color: black;
     margin-block-end: 10px;
@@ -24,14 +27,17 @@ div.card {
     max-width: 900px;
 }
 
+/* Name Field */
 div.card h2 {
     font-size: small;
 }
 
-li.comment h4 {
-    font-size: small;
+/* Content Field */
+div.card p {
+
 }
 
+/* Card - Comment list */
 ul.comments {
     border-radius: 5px;
     padding-top: 10px;
@@ -41,6 +47,27 @@ ul.comments {
     list-style: none;
 }
 
+/* Individual Comment */
+li.comment h4 {
+    font-size: small;
+}
+
+li.comment p {
+
+}
+
+/* Link Section */
+a {
+    text-decoration: none;
+    color: var(--primary)
+}
+
+a:hover {
+    color: var(--secondary);
+    text-shadow: #1d96f2 0 1px;
+}
+
+/* Footer */
 footer section {
     display: inline-block;
 }
