@@ -3,7 +3,8 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 class Content {
-    constructor(name, content, createdAt) {
+    constructor(id, name, content, createdAt) {
+        this.id = id
         this.name = name
         this.content = content
         this._createdAt = createdAt
@@ -16,13 +17,41 @@ class Content {
 }
 
 class Post extends Content {
-    constructor(name, content, createdAt, comments) {
-        super(name, content, createdAt);
+    constructor(id, name, content, createdAt, comments) {
+        super(id, name, content, createdAt);
         this.comments = comments
+    }
+
+    toModal() {
+        let modal = document.createElement('div')
+        modal.id = this.id
+        modal.classList.add('modal')
+
+        let article = document.createElement('article')
+        article.classList.add('post-inspect')
+
+        let h1 = document.createElement('h1')
+        let p = document.createElement('p')
+
+        let ul = document.createElement('ul')
+        if (this.comments.length > 0) {
+            ul.classList.add('comments')
+            // Display Comments
+            this.comments.forEach(e => {
+                let comment = new Comment(e.id, e.name, e.content, e.created_at)
+                ul.append(comment.toListItem())
+            })
+        }
+
+        article.append(h1, p, ul)
+        modal.append(article)
+
+        return modal
     }
 
     toCard() {
         let card = document.createElement('div')
+        card.id = this.id
         card.classList.add('card')
 
         let article = document.createElement('article')
@@ -34,31 +63,17 @@ class Post extends Content {
         let p = document.createElement('p')
         p.innerText = this.content
 
-        let ul = document.createElement('ul')
-        if (this.comments.length > 0) {
-            ul.classList.add('comments')
 
-            // ADD LIKE BUTTON
-
-            // Display Comments
-            // { name: '', content: '', created_at: '' }
-            this.comments.forEach(e => {
-                let comment = new Comment(e.name, e.content, e.created_at)
-
-                ul.append(comment.toListItem())
-            })
-        }
-
-        article.append(h2, p, ul)
+        article.append(h2, p)
         card.append(article)
-
+        // ADD CLICK EVENT TO SHOW MORE INFO ON SELECTED POST
         return card
     }
 }
 
 class Comment extends Content {
-    constructor(name, content, createdAt) {
-        super(name, content, createdAt);
+    constructor(id, name, content, createdAt) {
+        super(id, name, content, createdAt);
     }
 
     toListItem() {
@@ -82,7 +97,7 @@ function renderCard(post) {
 }
 
 function renderPosts(posts) {
-    posts.forEach(e => { renderCard(new Post(e.name, e.content, e.created_at, e.comments)) })
+    posts.forEach(e => { renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments)) })
 }
 
 function fetchAllPosts() {
