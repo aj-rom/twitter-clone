@@ -19,12 +19,22 @@ nav li {
     font-size: xxx-large;
 }
 
+main h1 {
+    text-align: center;
+}
+
+ul#posts {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 /* Cards */
 div.card {
     color: black;
+    margin: 5px;
     margin-block-end: 10px;
     padding: 15px;
-    max-width: 900px;
 }
 
 /* Name Field */
@@ -53,7 +63,7 @@ li.comment h4 {
 }
 
 li.comment p {
-
+    padding: 0 1em 0 0;
 }
 
 /* Link Section */
