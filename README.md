@@ -1,5 +1,5 @@
 # Twitter Clone
-Just a basic twitter clone.
+Just a basic twitter clone running on a Rails backend server using javascript fetch requests to manipulate and show data.
 
 ## Getting Started
 
@@ -23,3 +23,6 @@ Just a basic twitter clone.
     
 * Functionality on this site is limited soley to the C & R of CRUD operations.
     * With the exception of U (Update) when they like a certain post.
+    
+## License
+This project is open-sourced under the [MIT License](/LICENSE), feel free to do what you like with it.
