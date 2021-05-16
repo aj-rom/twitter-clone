@@ -89,6 +89,7 @@ footer section h6 {
 div.hidden { display: none }
 
 .modal {
+    padding-top: 1em;
     background-color: var(--background);
     display: inline-flex;
     justify-content: center;
