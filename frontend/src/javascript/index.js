@@ -29,7 +29,7 @@ class Post extends Content {
         modal.classList.remove('hidden')
 
         let article = document.createElement('article')
-        article.classList.add('post')
+        article.classList.add('post-modal')
         article.id = this.id
 
         let h1 = document.createElement('h1')
