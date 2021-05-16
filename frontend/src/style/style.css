@@ -105,3 +105,8 @@ div.hidden { display: none }
 .post-modal li.comment {
     text-align: left;
 }
+
+.heart {
+    color: red;
+    width: 20px;
+}

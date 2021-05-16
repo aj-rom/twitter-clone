@@ -76,9 +76,21 @@ class Post extends Content {
         let p = document.createElement('p')
         p.innerText = this.content
 
+        let span = document.createElement('span')
+        span.textContent = EMPTY_HEART
+        span.classList.add('heart')
+        span.addEventListener('click', e => {
+            // make sure we don't render modal content
+            // so we stop the event from bubbling up to our card click event listener
+            e.stopPropagation()
+            // increase this posts like by one
+            console.log('You clicked like!')
+            span.textContent = FULL_HEART
+        })
+
 
         article.append(h2, p)
-        card.append(article)
+        card.append(article, span)
 
         card.addEventListener('click', () => this.toModal())
 
@@ -127,10 +139,6 @@ function handleError(e) {
     console.log("An error has occurred! We can't seme to communicate with our backend server at the moment.", e)
 }
 
-function handleLikes() {
-
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAllPosts().then(handleLikes())
+    fetchAllPosts()
 })
