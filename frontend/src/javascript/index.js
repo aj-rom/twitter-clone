@@ -17,9 +17,10 @@ class Content {
 }
 
 class Post extends Content {
-    constructor(id, name, content, createdAt, comments) {
+    constructor(id, name, content, createdAt, comments, likes) {
         super(id, name, content, createdAt);
         this.comments = comments
+        this.likes = likes
     }
 
     toModal() {
@@ -37,6 +38,9 @@ class Post extends Content {
         let p = document.createElement('p')
         p.textContent = this.content
 
+        let likes = document.createElement('div')
+        likes.textContent = this.likes + ' Likes'
+
         let button = document.createElement('button')
         button.textContent = 'Close'
         button.classList.add('danger')
@@ -52,9 +56,9 @@ class Post extends Content {
                 let comment = new Comment(e.id, e.name, e.content, e.created_at)
                 ul.append(comment.toListItem())
             })
-            article.append(h1, p, ul, button)
+            article.append(h1, p, likes, ul, button)
         } else {
-            article.append(h1, p, button)
+            article.append(h1, p, likes, button)
         }
 
         modal.append(article)
@@ -77,7 +81,7 @@ class Post extends Content {
         p.innerText = this.content
 
         let span = document.createElement('span')
-        span.textContent = EMPTY_HEART
+        span.textContent = EMPTY_HEART + " " + this.likes
         span.classList.add('heart')
         span.addEventListener('click', e => {
             // make sure we don't render modal content
@@ -86,7 +90,7 @@ class Post extends Content {
             // increase this posts like by one
             // if our server call is successful we can update the heart
             console.log('You clicked like on ', this)
-            span.textContent = FULL_HEART
+            span.textContent = FULL_HEART + " " + `${this.likes + 1}`
         })
 
         article.append(h2, p, span)
@@ -124,7 +128,7 @@ function renderCard(post) {
 }
 
 function renderPosts(posts) {
-    posts.forEach(e => { renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments)) })
+    posts.forEach(e => { renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments, e.likes)) })
 }
 
 function fetchAllPosts() {
