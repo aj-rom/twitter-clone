@@ -25,7 +25,6 @@ class Post extends Content {
     toModal() {
         console.log('Rendering Modal Content ', this)
         let modal = document.getElementById('modal')
-        modal.childNodes.forEach(c => c.remove())
         modal.classList.remove('hidden')
 
         let article = document.createElement('article')
@@ -38,18 +37,17 @@ class Post extends Content {
         let p = document.createElement('p')
         p.textContent = this.content
 
-        // add close button
         let button = document.createElement('button')
         button.textContent = 'Close'
         button.classList.add('danger')
         button.addEventListener('click', () => {
             modal.classList.add('hidden')
+            modal.childNodes.forEach(e => e.remove())
         })
 
         if (this.comments.length > 0) {
             let ul = document.createElement('ul')
             ul.classList.add('comments')
-            // Display Comments
             this.comments.forEach(e => {
                 let comment = new Comment(e.id, e.name, e.content, e.created_at)
                 ul.append(comment.toListItem())
@@ -81,11 +79,8 @@ class Post extends Content {
 
         article.append(h2, p)
         card.append(article)
-        // ADD CLICK EVENT TO SHOW MORE INFO ON SELECTED POST
-        card.addEventListener('click', () => {
-            let modal = this.toModal()
-            // document.getElementById('modal').append(modal)
-        })
+
+        card.addEventListener('click', () => this.toModal())
 
         return card
     }
