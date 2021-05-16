@@ -84,13 +84,13 @@ class Post extends Content {
             // so we stop the event from bubbling up to our card click event listener
             e.stopPropagation()
             // increase this posts like by one
-            console.log('You clicked like!')
+            console.log('You clicked like!', this)
             span.textContent = FULL_HEART
         })
 
 
-        article.append(h2, p)
-        card.append(article, span)
+        article.append(h2, p, span)
+        card.append(article)
 
         card.addEventListener('click', () => this.toModal())
 
