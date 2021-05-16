@@ -135,10 +135,10 @@ function fetchAllPosts() {
 }
 
 function handleError(e) {
-    // RENDER ERROR MODAL
-    console.log("An error has occurred! We can't seme to communicate with our backend server at the moment.", e)
+    console.log("An error has occurred! We can't seme to communicate with our backend server at the moment.")
+    console.log(e)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAllPosts()
+    fetchAllPosts().then(e => console.log("Loaded All 'Tweets'"))
 })
