@@ -39,6 +39,10 @@ div.card {
     padding: 15px;
 }
 
+div.card:hover {
+    cursor: pointer;
+}
+
 /* Name Field */
 div.card h2 {
     font-size: small;
@@ -108,5 +112,10 @@ div.hidden { display: none }
 
 .heart {
     color: red;
-    width: 20px;
+    min-width: 20px;
+    max-width: 50px;
+}
+
+.heart:hover {
+    cursor: grab;
 }
