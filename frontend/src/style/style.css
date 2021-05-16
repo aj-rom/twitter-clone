@@ -90,5 +90,15 @@ div.hidden { display: none }
 
 .modal {
     background-color: var(--background);
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.post-modal {
+    text-align: center;
+}
+
+.post-modal li.comment {
+    text-align: left;
 }
