@@ -85,3 +85,10 @@ footer section {
 footer section h6 {
     vertical-align: top;
 }
+
+div.hidden { display: none }
+
+.modal {
+    background-color: var(--background);
+    display: inline-block;
+}

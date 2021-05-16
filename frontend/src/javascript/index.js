@@ -23,27 +23,42 @@ class Post extends Content {
     }
 
     toModal() {
-        let modal = document.createElement('div')
-        modal.id = this.id
-        modal.classList.add('modal')
+        console.log('Rendering Modal Content ', this)
+        let modal = document.getElementById('modal')
+        modal.childNodes.forEach(c => c.remove())
+        modal.classList.remove('hidden')
 
         let article = document.createElement('article')
-        article.classList.add('post-inspect')
+        article.classList.add('post')
+        article.id = this.id
 
         let h1 = document.createElement('h1')
-        let p = document.createElement('p')
+        h1.textContent = this.name
 
-        let ul = document.createElement('ul')
+        let p = document.createElement('p')
+        p.textContent = this.content
+
+        // add close button
+        let button = document.createElement('button')
+        button.textContent = 'Close'
+        button.classList.add('danger')
+        button.addEventListener('click', () => {
+            modal.classList.add('hidden')
+        })
+
         if (this.comments.length > 0) {
+            let ul = document.createElement('ul')
             ul.classList.add('comments')
             // Display Comments
             this.comments.forEach(e => {
                 let comment = new Comment(e.id, e.name, e.content, e.created_at)
                 ul.append(comment.toListItem())
             })
+            article.append(h1, p, ul, button)
+        } else {
+            article.append(h1, p, button)
         }
 
-        article.append(h1, p, ul)
         modal.append(article)
 
         return modal
@@ -67,6 +82,11 @@ class Post extends Content {
         article.append(h2, p)
         card.append(article)
         // ADD CLICK EVENT TO SHOW MORE INFO ON SELECTED POST
+        card.addEventListener('click', () => {
+            let modal = this.toModal()
+            // document.getElementById('modal').append(modal)
+        })
+
         return card
     }
 }
