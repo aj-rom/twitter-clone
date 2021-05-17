@@ -124,7 +124,7 @@ class Comment extends Content {
         li.classList.add('comment')
 
         let h4 = document.createElement('h4')
-        h4.innerText = this.name
+        h4.innerText = this.name + " " + this.createdAt()
 
         let p = document.createElement('p')
         p.innerText = this.content
@@ -220,9 +220,15 @@ function getCommentForm(post) {
                 let close = document.querySelector('button.danger')
                 close.click()
 
-                const id = parseInt(sub.data.post_id)
+                let comment = sub.data
+                const date = new Date();
+                const ops = { minimumIntegerDigits: 2, useGrouping: false }
+                comment.created_at = `${date.getFullYear()}-${(date.getMonth() + 1)
+                    .toLocaleString('en-US', ops)}-${date.getDate()
+                    .toLocaleString('en-US', ops)}`
+                const id = parseInt(comment.post_id)
                 let post = POSTS.find(e => e.id === id)
-                post.comments.push(sub.data)
+                post.comments.push(comment)
                 post.toModal()
             })
     }))
