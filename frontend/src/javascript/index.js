@@ -49,6 +49,8 @@ class Post extends Content {
             modal.childNodes.forEach(e => e.remove())
         })
 
+        let commentForm = getCommentForm(this.id)
+
         if (this.comments.length > 0) {
             let ul = document.createElement('ul')
             ul.classList.add('comments')
@@ -56,9 +58,9 @@ class Post extends Content {
                 let comment = new Comment(e.id, e.name, e.content, e.created_at)
                 ul.append(comment.toListItem())
             })
-            article.append(h1, p, likes, ul, button)
+            article.append(h1, p, likes, ul, commentForm, button)
         } else {
-            article.append(h1, p, likes, button)
+            article.append(h1, p, likes, commentForm, button)
         }
 
         modal.append(article)
@@ -144,6 +146,72 @@ function fetchAllPosts() {
         .then(e => e.json())
         .then(e => renderPosts(e))
         .catch(e => handleError(e))
+}
+
+function getCommentForm(id) {
+    let form = document.createElement('form')
+    form.classList.add('comment-form')
+
+    Formio.icons = 'fontawesome'
+    Formio.createForm(form, {
+        "display": "form",
+        "settings": {
+            "pdf": {
+                "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+                "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+            }
+        },
+        "components": [
+            {
+                "label": "post_id",
+                "defaultValue": id.toString(),
+                "key": "post_id",
+                "type": "hidden",
+                "input": true,
+                "tableView": false
+            },
+            {
+                "label": "Name",
+                "labelPosition": "left-left",
+                "placeholder": "Name",
+                "description": "Your name.",
+                "tableView": true,
+                "validate": {
+                    "required": true,
+                    "maxLength": 100,
+                    "minLength": 5
+                },
+                "key": "name",
+                "type": "textfield",
+                "input": true
+            },
+            {
+                "label": "Comment",
+                "placeholder": "Leave you're thoughts here!",
+                "description": "The comments for this desired post.",
+                "autoExpand": false,
+                "tableView": true,
+                "validate": {
+                    "required": true,
+                    "maxLength": 500,
+                    "minLength": 5
+                },
+                "key": "comment",
+                "type": "textarea",
+                "input": true
+            },
+            {
+                "type": "button",
+                "label": "Submit",
+                "key": "submit",
+                "disableOnInvalid": true,
+                "input": true,
+                "tableView": false
+            }
+        ]
+    }).then(f => f.on('submit', sub => console.log(sub)))
+
+    return form
 }
 
 function likePost(id) {

@@ -119,3 +119,7 @@ div.hidden { display: none }
 .heart:hover {
     cursor: grab;
 }
+
+.comment-form {
+    text-align: left;
+}
