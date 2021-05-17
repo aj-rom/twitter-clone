@@ -80,6 +80,17 @@ class Post extends Content {
         let p = document.createElement('p')
         p.innerText = this.content
 
+        let span = this.likeButton()
+
+        article.append(h2, p, span)
+        card.append(article)
+
+        card.addEventListener('click', () => this.toModal())
+
+        return card
+    }
+
+    likeButton() {
         let span = document.createElement('span')
         span.textContent = EMPTY_HEART + " " + this.likes
         span.classList.add('heart')
@@ -95,12 +106,7 @@ class Post extends Content {
 
         })
 
-        article.append(h2, p, span)
-        card.append(article)
-
-        card.addEventListener('click', () => this.toModal())
-
-        return card
+        return span
     }
 }
 
