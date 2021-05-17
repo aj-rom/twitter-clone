@@ -8,8 +8,6 @@ const FULL_HEART = '♥'
 // Temp Array to Cache our JSON objects of tweets (posts)
 const POSTS = []
 
-// Form Settings
-
 class Content {
     constructor(id, name, content, createdAt) {
         this.id = id
@@ -202,8 +200,10 @@ function getCommentForm(post) {
     return div
 }
 
+// Dynamic Method for Form.io implementation
 function getFormJSON(label, placeholder, description, hidden = false, postId = 0) {
 
+    // Form Settings
     const contentValidation = {
         "required": true,
         "maxLength": 500,
