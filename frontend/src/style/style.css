@@ -106,8 +106,23 @@ div.hidden { display: none }
     text-align: center;
 }
 
+.post-modal ul.comments {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .post-modal li.comment {
     text-align: left;
+    min-height: 100px;
+    min-width: 300px;
+    max-width: 400px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin-inline-end: 10px;
+    margin-block-end: 10px;
+    border-radius: 5px;
 }
 
 .heart {
@@ -120,7 +135,15 @@ div.hidden { display: none }
     cursor: grab;
 }
 
+.form-container {
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .comment-form {
+    align-self: center;
+    min-width: 600px;
     text-align: left;
 }
 
