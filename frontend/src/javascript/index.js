@@ -89,8 +89,10 @@ class Post extends Content {
             e.stopPropagation()
             // increase this posts like by one
             // if our server call is successful we can update the heart
-            console.log('You clicked like on ', this)
-            span.textContent = FULL_HEART + " " + `${this.likes + 1}`
+            likePost(this.id)
+                .then(() => span.textContent = FULL_HEART + " " + `${this.likes + 1}`)
+                .then(() => this.likes += 1)
+
         })
 
         article.append(h2, p, span)
@@ -136,6 +138,20 @@ function fetchAllPosts() {
         .then(e => e.json())
         .then(e => renderPosts(e))
         .catch(e => handleError(e))
+}
+
+function likePost(id) {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PATCH',
+        body: JSON.stringify(id)
+    }
+
+    return fetch(BACKEND_URL + `/posts/${id}`, config)
+        .then(e => console.log('Success ', e))
+        .catch(e => console.log('Error ', e))
 }
 
 function handleError(e) {

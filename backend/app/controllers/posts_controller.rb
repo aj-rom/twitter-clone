@@ -14,7 +14,10 @@ class PostsController < ApplicationController
     end
   end
 
-  def update; end
+  def update
+    @post.likes += 1
+    @post.save
+  end
 
   private
 
