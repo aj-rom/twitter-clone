@@ -149,6 +149,9 @@ function fetchAllPosts() {
 }
 
 function getCommentForm(id) {
+    let h4 = document.createElement('h4')
+    h4.innerText = 'Leave a Comment'
+
     let form = document.createElement('form')
     form.classList.add('comment-form')
 
@@ -211,7 +214,9 @@ function getCommentForm(id) {
         ]
     }).then(f => f.on('submit', sub => console.log(sub)))
 
-    return form
+    let div = document.createElement('div')
+    div.append(h4, form)
+    return div
 }
 
 function likePost(id) {
