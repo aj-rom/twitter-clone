@@ -1,6 +1,7 @@
 const BACKEND_URL = 'http://localhost:3000'
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
+const POSTS = []
 
 class Content {
     constructor(id, name, content, createdAt) {
@@ -21,6 +22,7 @@ class Post extends Content {
         super(id, name, content, createdAt);
         this.comments = comments
         this.likes = likes
+        POSTS.push(this)
     }
 
     toModal() {
@@ -49,7 +51,7 @@ class Post extends Content {
             modal.childNodes.forEach(e => e.remove())
         })
 
-        let commentForm = getCommentForm(this.id)
+        let commentForm = getCommentForm(this)
 
         if (this.comments.length > 0) {
             let ul = document.createElement('ul')
@@ -138,7 +140,7 @@ function renderCard(post) {
 }
 
 function renderPosts(posts) {
-    posts.forEach(e => { renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments, e.likes)) })
+    posts.forEach(e => renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments, e.likes)))
 }
 
 function fetchAllPosts() {
@@ -148,7 +150,7 @@ function fetchAllPosts() {
         .catch(e => handleError(e))
 }
 
-function getCommentForm(id) {
+function getCommentForm(post) {
     let h4 = document.createElement('h4')
     h4.innerText = 'Leave a Comment'
 
@@ -167,7 +169,7 @@ function getCommentForm(id) {
         "components": [
             {
                 "label": "post_id",
-                "defaultValue": id.toString(),
+                "defaultValue": post.id.toString(),
                 "key": "post_id",
                 "type": "hidden",
                 "input": true,
@@ -199,7 +201,7 @@ function getCommentForm(id) {
                     "maxLength": 500,
                     "minLength": 5
                 },
-                "key": "comment",
+                "key": "content",
                 "type": "textarea",
                 "input": true
             },
@@ -212,11 +214,34 @@ function getCommentForm(id) {
                 "tableView": false
             }
         ]
-    }).then(f => f.on('submit', sub => console.log(sub)))
+    }).then(f => f.on('submit', sub => {
+        addCommentToPost(sub.data)
+            .then(e => {
+                let close = document.querySelector('button.danger')
+                close.click()
+
+                const id = parseInt(sub.data.post_id)
+                let post = POSTS.find(e => e.id === id)
+                post.comments.push(sub.data)
+                post.toModal()
+            })
+    }))
 
     let div = document.createElement('div')
     div.append(h4, form)
     return div
+}
+
+function addCommentToPost(comment) {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(comment)
+    }
+
+    return fetch(BACKEND_URL + `/posts/${comment.post_id}`, config)
 }
 
 function likePost(id) {
