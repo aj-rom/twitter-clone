@@ -14,6 +14,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def create
+    @post = Post.new(post_params)
+    @post.save
+  end
+
   def update
     @post.likes += 1
     @post.save
@@ -32,6 +37,10 @@ class PostsController < ApplicationController
 
   def comment_params
     params.permit(:post_id, :content, :name)
+  end
+
+  def post_params
+    params.permit(:name, :content)
   end
 
 end
