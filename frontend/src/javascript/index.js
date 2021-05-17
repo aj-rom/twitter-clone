@@ -1,5 +1,5 @@
 // Backend URL for our Rails Server
-const BACKEND_URL = 'http://localhost:3000'
+const BACKEND_URL = 'https://ajrom-twitter-clone.herokuapp.com/'
 
 // Like Emoticons
 const EMPTY_HEART = '♡'
