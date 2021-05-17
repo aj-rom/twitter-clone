@@ -35,7 +35,7 @@ class Post extends Content {
         article.id = this.id
 
         let h1 = document.createElement('h1')
-        h1.textContent = this.name
+        h1.textContent = this.name + " " + this.createdAt()
 
         let p = document.createElement('p')
         p.textContent = this.content
@@ -53,16 +53,20 @@ class Post extends Content {
 
         let commentForm = getCommentForm(this)
 
+        let header = document.createElement('header')
+        header.append(h1, p, likes)
         if (this.comments.length > 0) {
             let ul = document.createElement('ul')
+            let h4 = document.createElement('h4')
+            h4.innerText = 'Comments'
             ul.classList.add('comments')
             this.comments.forEach(e => {
                 let comment = new Comment(e.id, e.name, e.content, e.created_at)
                 ul.append(comment.toListItem())
             })
-            article.append(h1, p, likes, ul, commentForm, button)
+            article.append(header, h4, ul, commentForm, button)
         } else {
-            article.append(h1, p, likes, commentForm, button)
+            article.append(header, commentForm, button)
         }
 
         modal.append(article)
