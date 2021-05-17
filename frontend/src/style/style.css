@@ -16,7 +16,23 @@ nav ul {
 }
 nav li {
     display: inline;
+}
+
+nav li.logo {
     font-size: xxx-large;
+    text-align: left;
+}
+
+nav li button {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    padding: 3px;
+    border-radius: 7px;
+    background-color: var(--primary);
+    color: white;
+    text-shadow: black 1px 1px;
+    border: 1px solid var(--secondary)
 }
 
 main h1 {
