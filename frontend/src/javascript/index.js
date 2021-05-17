@@ -9,40 +9,6 @@ const FULL_HEART = '♥'
 const POSTS = []
 
 // Form Settings
-const contentValidation = {
-    "required": true,
-    "maxLength": 500,
-    "minLength": 5
-}
-const nameSettings = {
-    "label": "Name",
-    "labelPosition": "left-left",
-    "placeholder": "Name",
-    "description": "Your full name.",
-    "tableView": true,
-    "validate": {
-        "required": true,
-        "maxLength": 100,
-        "minLength": 5
-    },
-    "key": "name",
-    "type": "textfield",
-    "input": true
-}
-const formSettings = {
-    "pdf": {
-        "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
-        "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
-    }
-}
-const submitButtonJson = {
-    "type": "button",
-    "label": "Submit",
-    "key": "submit",
-    "disableOnInvalid": true,
-    "input": true,
-    "tableView": false
-}
 
 class Content {
     constructor(id, name, content, createdAt) {
@@ -171,18 +137,15 @@ class Comment extends Content {
     }
 }
 
-// Modal Managment
+// Modal Management
 function clearModal() {
     const modal = document.getElementById('modal')
     modal.classList.add('hidden')
-    modal.childNodes.forEach(e => {
-        console.log('Removing: ', e)
-        e.remove()
-    })
+    modal.childNodes.forEach(e => e.remove())
 }
 
 function getCloseModalButton() {
-    let button = document.createElement('button')
+    const button = document.createElement('button')
     button.textContent = 'Close'
     button.classList.add('danger')
     button.addEventListener('click', e => clearModal())
@@ -215,21 +178,76 @@ function getCommentForm(post) {
     form.classList.add('comment-form')
 
     Formio.icons = 'fontawesome'
-    Formio.createForm(form, {
+    Formio.createForm(form, getFormJSON("Comment", "Leave your thoughts here!",
+        "The comments for this tweet.", true, post.id))
+        .then(f => f.on('submit', sub => { addCommentToPost(sub.data).then(e => {
+            document.querySelector('button.danger').click()
+
+            let comment = sub.data
+            const date = new Date();
+            const ops = { minimumIntegerDigits: 2, useGrouping: false }
+            comment.created_at = `${date.getFullYear()}-${(date.getMonth() + 1)
+                .toLocaleString('en-US', ops)}-${date.getDate()
+                .toLocaleString('en-US', ops)}`
+            const id = parseInt(comment.post_id)
+            let post = POSTS.find(e => e.id === id)
+            post.comments.push(comment)
+            post.toModal()
+        })
+    }))
+
+    const div = document.createElement('div')
+    div.classList.add('form-container')
+    div.append(h4, form)
+    return div
+}
+
+function getFormJSON(label, placeholder, description, hidden = false, postId = 0) {
+
+    const contentValidation = {
+        "required": true,
+        "maxLength": 500,
+        "minLength": 5
+    }
+    const nameSettings = {
+        "label": "Name",
+        "labelPosition": "left-left",
+        "placeholder": "Name",
+        "description": "Your full name.",
+        "tableView": true,
+        "validate": {
+            "required": true,
+            "maxLength": 100,
+            "minLength": 5
+        },
+        "key": "name",
+        "type": "textfield",
+        "input": true
+    }
+    const formSettings = {
+        "pdf": {
+            "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+            "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+        }
+    }
+    const submitButtonJson = {
+        "type": "button",
+        "label": "Submit",
+        "key": "submit",
+        "disableOnInvalid": true,
+        "input": true,
+        "tableView": false
+    }
+
+    let json = {
         "display": "form",
         "settings": formSettings,
         "components": [
+            nameSettings,
             {
-                "label": "post_id",
-                "defaultValue": post.id.toString(),
-                "key": "post_id",
-                "type": "hidden",
-                "input": true,
-                "tableView": false
-            }, nameSettings, {
-                "label": "Comment",
-                "placeholder": "Leave you're thoughts here!",
-                "description": "The comments for this desired post.",
+                "label": label,
+                "placeholder": placeholder,
+                "description": description,
                 "autoExpand": false,
                 "tableView": true,
                 "validate": contentValidation,
@@ -237,30 +255,22 @@ function getCommentForm(post) {
                 "type": "textarea",
                 "input": true
             }, submitButtonJson
+
         ]
-    }).then(f => f.on('submit', sub => {
-        addCommentToPost(sub.data)
-            .then(e => {
-                let close = document.querySelector('button.danger')
-                close.click()
+    }
 
-                let comment = sub.data
-                const date = new Date();
-                const ops = { minimumIntegerDigits: 2, useGrouping: false }
-                comment.created_at = `${date.getFullYear()}-${(date.getMonth() + 1)
-                    .toLocaleString('en-US', ops)}-${date.getDate()
-                    .toLocaleString('en-US', ops)}`
-                const id = parseInt(comment.post_id)
-                let post = POSTS.find(e => e.id === id)
-                post.comments.push(comment)
-                post.toModal()
-            })
-    }))
+    if (hidden) {
+        json.components.push({
+            "label": "post_id",
+            "defaultValue": postId.toString(),
+            "key": "post_id",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        })
+    }
 
-    let div = document.createElement('div')
-    div.classList.add('form-container')
-    div.append(h4, form)
-    return div
+    return json
 }
 
 function renderNewTweetForm() {
@@ -271,25 +281,11 @@ function renderNewTweetForm() {
     form.classList.add('new-tweet-form')
 
     Formio.icons = 'fontawesome'
-    Formio.createForm(form, {
-        "display": "form",
-        "settings": formSettings,
-        "components": [
-            nameSettings,
-            {
-                "label": "Tweet",
-                "placeholder": "Leave you're thoughts here!",
-                "description": "The content for your tweet..",
-                "autoExpand": false,
-                "tableView": true,
-                "validate": contentValidation,
-                "key": "content",
-                "type": "textarea",
-                "input": true
-            }, submitButtonJson
-
-        ]
-    }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
+    Formio.createForm(form,
+        getFormJSON('Tweet', "Leave your thoughts here!",
+            "The content for your tweet..."))
+        .then(f => f.on('submit', sub => submitTweet(sub.data)
+            .then(e => location.reload())))
 
     let button = getCloseModalButton()
 
