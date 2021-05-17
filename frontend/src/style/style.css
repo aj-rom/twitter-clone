@@ -106,6 +106,30 @@ div.hidden { display: none }
     text-align: center;
 }
 
+.post-modal header {
+    padding: 10px;
+    background-color: white;
+    color: black;
+    max-width: 450px;
+    margin: 0 auto;
+    border-radius: 10px;
+    margin-block-end: 10px;
+}
+
+.post-modal header h1 {
+    font-size: large;
+    text-align: left;
+}
+
+.post-modal header p {
+    font-size: x-large;
+}
+
+.post-modal header div {
+    font-size: large;
+    text-align: right;
+}
+
 .post-modal ul.comments {
     display: inline-flex;
     flex-wrap: wrap;
