@@ -1,7 +1,48 @@
+// Backend URL for our Rails Server
 const BACKEND_URL = 'http://localhost:3000'
+
+// Like Emoticons
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
+
+// Temp Array to Cache our JSON objects of tweets (posts)
 const POSTS = []
+
+// Form Settings
+const contentValidation = {
+    "required": true,
+    "maxLength": 500,
+    "minLength": 5
+}
+const nameSettings = {
+    "label": "Name",
+    "labelPosition": "left-left",
+    "placeholder": "Name",
+    "description": "Your full name.",
+    "tableView": true,
+    "validate": {
+        "required": true,
+        "maxLength": 100,
+        "minLength": 5
+    },
+    "key": "name",
+    "type": "textfield",
+    "input": true
+}
+const formSettings = {
+    "pdf": {
+        "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+        "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+    }
+}
+const submitButtonJson = {
+    "type": "button",
+    "label": "Submit",
+    "key": "submit",
+    "disableOnInvalid": true,
+    "input": true,
+    "tableView": false
+}
 
 class Content {
     constructor(id, name, content, createdAt) {
@@ -110,24 +151,6 @@ class Post extends Content {
     }
 }
 
-function clearModal() {
-    const modal = document.getElementById('modal')
-    modal.classList.add('hidden')
-    modal.childNodes.forEach(e => {
-        console.log('Removing: ', e)
-        e.remove()
-    })
-}
-
-function getCloseModalButton() {
-    let button = document.createElement('button')
-    button.textContent = 'Close'
-    button.classList.add('danger')
-    button.addEventListener('click', e => clearModal())
-
-    return button
-}
-
 class Comment extends Content {
     constructor(id, name, content, createdAt) {
         super(id, name, content, createdAt);
@@ -148,6 +171,26 @@ class Comment extends Content {
     }
 }
 
+// Modal Managment
+function clearModal() {
+    const modal = document.getElementById('modal')
+    modal.classList.add('hidden')
+    modal.childNodes.forEach(e => {
+        console.log('Removing: ', e)
+        e.remove()
+    })
+}
+
+function getCloseModalButton() {
+    let button = document.createElement('button')
+    button.textContent = 'Close'
+    button.classList.add('danger')
+    button.addEventListener('click', e => clearModal())
+
+    return button
+}
+
+// Data Rendering
 function renderCard(post) {
     const card = post.toCard()
     document.getElementById('posts').append(card)
@@ -174,12 +217,7 @@ function getCommentForm(post) {
     Formio.icons = 'fontawesome'
     Formio.createForm(form, {
         "display": "form",
-        "settings": {
-            "pdf": {
-                "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
-                "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
-            }
-        },
+        "settings": formSettings,
         "components": [
             {
                 "label": "post_id",
@@ -188,45 +226,17 @@ function getCommentForm(post) {
                 "type": "hidden",
                 "input": true,
                 "tableView": false
-            },
-            {
-                "label": "Name",
-                "labelPosition": "left-left",
-                "placeholder": "Name",
-                "description": "Your name.",
-                "tableView": true,
-                "validate": {
-                    "required": true,
-                    "maxLength": 100,
-                    "minLength": 5
-                },
-                "key": "name",
-                "type": "textfield",
-                "input": true
-            },
-            {
+            }, nameSettings, {
                 "label": "Comment",
                 "placeholder": "Leave you're thoughts here!",
                 "description": "The comments for this desired post.",
                 "autoExpand": false,
                 "tableView": true,
-                "validate": {
-                    "required": true,
-                    "maxLength": 500,
-                    "minLength": 5
-                },
+                "validate": contentValidation,
                 "key": "content",
                 "type": "textarea",
                 "input": true
-            },
-            {
-                "type": "button",
-                "label": "Submit",
-                "key": "submit",
-                "disableOnInvalid": true,
-                "input": true,
-                "tableView": false
-            }
+            }, submitButtonJson
         ]
     }).then(f => f.on('submit', sub => {
         addCommentToPost(sub.data)
@@ -251,6 +261,59 @@ function getCommentForm(post) {
     div.classList.add('form-container')
     div.append(h4, form)
     return div
+}
+
+function renderNewTweetForm() {
+    let modal = document.getElementById('modal')
+    modal.classList.remove('hidden')
+
+    let form = document.createElement('form')
+    form.classList.add('new-tweet-form')
+
+    Formio.icons = 'fontawesome'
+    Formio.createForm(form, {
+        "display": "form",
+        "settings": formSettings,
+        "components": [
+            nameSettings,
+            {
+                "label": "Tweet",
+                "placeholder": "Leave you're thoughts here!",
+                "description": "The content for your tweet..",
+                "autoExpand": false,
+                "tableView": true,
+                "validate": contentValidation,
+                "key": "content",
+                "type": "textarea",
+                "input": true
+            }, submitButtonJson
+
+        ]
+    }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
+
+    let button = getCloseModalButton()
+
+    let div = document.createElement('div')
+    div.classList.add('container')
+
+    let h1 = document.createElement('h1')
+    h1.textContent = 'Post a Tweet'
+
+    div.append(h1, form, button)
+    modal.append(div)
+}
+
+// CRUD Operations
+function submitTweet(data) {
+    const conf = {
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    }
+
+    return fetch(BACKEND_URL + '/posts', conf)
 }
 
 function addCommentToPost(comment) {
@@ -283,88 +346,7 @@ function handleError(e) {
     console.log(e)
 }
 
-function renderNewTweetForm() {
-    let modal = document.getElementById('modal')
-    modal.classList.remove('hidden')
-
-    let form = document.createElement('form')
-    form.classList.add('new-tweet-form')
-
-    Formio.icons = 'fontawesome'
-    Formio.createForm(form, {
-        "display": "form",
-        "settings": {
-            "pdf": {
-                "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
-                "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
-            }
-        },
-        "components": [
-            {
-                "label": "Name",
-                "labelPosition": "left-left",
-                "placeholder": "Name",
-                "description": "Your full name.",
-                "tableView": true,
-                "validate": {
-                    "required": true,
-                    "maxLength": 100,
-                    "minLength": 5
-                },
-                "key": "name",
-                "type": "textfield",
-                "input": true
-            },
-            {
-                "label": "Tweet",
-                "placeholder": "Leave you're thoughts here!",
-                "description": "The content for your tweet..",
-                "autoExpand": false,
-                "tableView": true,
-                "validate": {
-                    "required": true,
-                    "maxLength": 500,
-                    "minLength": 5
-                },
-                "key": "content",
-                "type": "textarea",
-                "input": true
-            },
-            {
-                "type": "button",
-                "label": "Submit",
-                "key": "submit",
-                "disableOnInvalid": true,
-                "input": true,
-                "tableView": false
-            }
-        ]
-    }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
-
-    let button = getCloseModalButton()
-
-    let div = document.createElement('div')
-    div.classList.add('container')
-
-    let h1 = document.createElement('h1')
-    h1.textContent = 'Post a Tweet'
-
-    div.append(h1, form, button)
-    modal.append(div)
-}
-
-function submitTweet(data) {
-    const conf = {
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(data)
-    }
-
-    return fetch(BACKEND_URL + '/posts', conf)
-}
-
+// DOM LOAD
 document.addEventListener("DOMContentLoaded", () => {
     fetchAllPosts()
 })
