@@ -123,3 +123,7 @@ div.hidden { display: none }
 .comment-form {
     text-align: left;
 }
+
+.modal {
+    overflow: scroll;
+}
