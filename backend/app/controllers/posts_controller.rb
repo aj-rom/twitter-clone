@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :get_post, only: %i[show update]
+  before_action :get_post, only: %i[show update new_comment]
 
   def index
     latest_posts = Post.order('created_at DESC')
@@ -19,10 +19,19 @@ class PostsController < ApplicationController
     @post.save
   end
 
+  def new_comment
+    @post.comments.build(comment_params)
+    @post.save
+  end
+
   private
 
   def get_post
     @post ||= Post.find_by(id: params[:id])
+  end
+
+  def comment_params
+    params.permit(:post_id, :content, :name)
   end
 
 end
