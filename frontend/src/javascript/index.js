@@ -42,15 +42,8 @@ class Post extends Content {
         let likes = document.createElement('div')
         likes.textContent = this.likes + ' Likes'
 
-        let button = document.createElement('button')
-        button.textContent = 'Close'
-        button.classList.add('danger')
-        button.addEventListener('click', () => {
-            modal.classList.add('hidden')
-            modal.childNodes.forEach(e => e.remove())
-        })
-
-        let commentForm = getCommentForm(this)
+        const button = getCloseModalButton()
+        const commentForm = getCommentForm(this)
 
         let header = document.createElement('header')
         header.append(h1, p, likes)
@@ -115,6 +108,24 @@ class Post extends Content {
 
         return span
     }
+}
+
+function clearModal() {
+    const modal = document.getElementById('modal')
+    modal.classList.add('hidden')
+    modal.childNodes.forEach(e => {
+        console.log('Removing: ', e)
+        e.remove()
+    })
+}
+
+function getCloseModalButton() {
+    let button = document.createElement('button')
+    button.textContent = 'Close'
+    button.classList.add('danger')
+    button.addEventListener('click', e => clearModal())
+
+    return button
 }
 
 class Comment extends Content {
@@ -329,7 +340,14 @@ function renderNewTweetForm() {
             }
         ]
     }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
-    modal.append(form)
+
+    let button = getCloseModalButton()
+
+    let div = document.createElement('div')
+    div.classList.add('container')
+
+    div.append(form, button)
+    modal.append(div)
 }
 
 function submitTweet(data) {
