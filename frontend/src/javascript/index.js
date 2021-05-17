@@ -26,7 +26,6 @@ class Post extends Content {
     }
 
     toModal() {
-        console.log('Rendering Modal Content ', this)
         let modal = document.getElementById('modal')
         modal.classList.remove('hidden')
 
@@ -265,8 +264,7 @@ function likePost(id) {
     }
 
     return fetch(BACKEND_URL + `/posts/${id}`, config)
-        .then(e => console.log('Success ', e))
-        .catch(e => console.log('Error ', e))
+        .catch(e => handleError(e))
 }
 
 function handleError(e) {
@@ -331,14 +329,10 @@ function renderNewTweetForm() {
             }
         ]
     }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
-
     modal.append(form)
-    console.log('Rendering New Tweet Form')
 }
 
 function submitTweet(data) {
-    console.log('Submitting new tweet', data)
-
     const conf = {
         headers: {
             "Content-Type": 'application/json'
@@ -348,9 +342,8 @@ function submitTweet(data) {
     }
 
     return fetch(BACKEND_URL + '/posts', conf)
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAllPosts().then(e => console.log("Loaded All 'Tweets'"))
+    fetchAllPosts()
 })
