@@ -346,7 +346,10 @@ function renderNewTweetForm() {
     let div = document.createElement('div')
     div.classList.add('container')
 
-    div.append(form, button)
+    let h1 = document.createElement('h1')
+    h1.textContent = 'Post a Tweet'
+
+    div.append(h1, form, button)
     modal.append(div)
 }
 
