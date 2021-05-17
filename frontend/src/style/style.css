@@ -190,8 +190,13 @@ div.hidden { display: none }
     overflow: scroll;
 }
 
-.post-modal button.danger {
+button.danger {
     position: absolute;
     top: 1em;
     right: 1em;
+}
+
+.new-tweet-form {
+    max-width: 600px;
+    margin: 0 auto;
 }
