@@ -189,3 +189,9 @@ div.hidden { display: none }
 .modal {
     overflow: scroll;
 }
+
+.post-modal button.danger {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
