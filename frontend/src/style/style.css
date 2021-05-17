@@ -35,6 +35,10 @@ nav li button {
     border: 1px solid var(--secondary)
 }
 
+nav li button:hover {
+    background-color: var(--secondary);
+}
+
 main h1 {
     text-align: center;
 }
@@ -194,6 +198,16 @@ button.danger {
     position: absolute;
     top: 1em;
     right: 1em;
+    background-color: var(--primary);
+    color: white;
+    text-shadow: black 1px 1px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+button.danger:hover {
+    background-color: var(--secondary);
 }
 
 .new-tweet-form {
