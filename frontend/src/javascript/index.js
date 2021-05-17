@@ -234,6 +234,7 @@ function getCommentForm(post) {
     }))
 
     let div = document.createElement('div')
+    div.classList.add('form-container')
     div.append(h4, form)
     return div
 }
