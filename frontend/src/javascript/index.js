@@ -275,7 +275,80 @@ function handleError(e) {
 }
 
 function renderNewTweetForm() {
+    let modal = document.getElementById('modal')
+    modal.classList.remove('hidden')
+
+    let form = document.createElement('form')
+    form.classList.add('new-tweet-form')
+
+    Formio.icons = 'fontawesome'
+    Formio.createForm(form, {
+        "display": "form",
+        "settings": {
+            "pdf": {
+                "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+                "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+            }
+        },
+        "components": [
+            {
+                "label": "Name",
+                "labelPosition": "left-left",
+                "placeholder": "Name",
+                "description": "Your full name.",
+                "tableView": true,
+                "validate": {
+                    "required": true,
+                    "maxLength": 100,
+                    "minLength": 5
+                },
+                "key": "name",
+                "type": "textfield",
+                "input": true
+            },
+            {
+                "label": "Tweet",
+                "placeholder": "Leave you're thoughts here!",
+                "description": "The content for your tweet..",
+                "autoExpand": false,
+                "tableView": true,
+                "validate": {
+                    "required": true,
+                    "maxLength": 500,
+                    "minLength": 5
+                },
+                "key": "content",
+                "type": "textarea",
+                "input": true
+            },
+            {
+                "type": "button",
+                "label": "Submit",
+                "key": "submit",
+                "disableOnInvalid": true,
+                "input": true,
+                "tableView": false
+            }
+        ]
+    }).then(f => f.on('submit', sub => submitTweet(sub.data).then(e => location.reload())))
+
+    modal.append(form)
     console.log('Rendering New Tweet Form')
+}
+
+function submitTweet(data) {
+    console.log('Submitting new tweet', data)
+
+    const conf = {
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    }
+
+    return fetch(BACKEND_URL + '/posts', conf)
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
