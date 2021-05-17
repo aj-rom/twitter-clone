@@ -100,10 +100,10 @@ class Post extends Content {
             // make sure we don't render modal content
             // so we stop the event from bubbling up to our card click event listener
             e.stopPropagation()
-            // increase this posts like by one
-            // if our server call is successful we can update the heart
             likePost(this.id)
+                // replace with filled in heart
                 .then(() => span.textContent = FULL_HEART + " " + `${this.likes + 1}`)
+                // immediately update our object to match the database
                 .then(() => this.likes += 1)
 
         })
