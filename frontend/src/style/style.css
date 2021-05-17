@@ -176,9 +176,8 @@ div.hidden { display: none }
 }
 
 .form-container {
-    display: inline-flex;
-    justify-content: center;
-    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .comment-form {
