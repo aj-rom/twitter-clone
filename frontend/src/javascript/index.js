@@ -274,6 +274,10 @@ function handleError(e) {
     console.log(e)
 }
 
+function renderNewTweetForm() {
+    console.log('Rendering New Tweet Form')
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     fetchAllPosts().then(e => console.log("Loaded All 'Tweets'"))
 })
