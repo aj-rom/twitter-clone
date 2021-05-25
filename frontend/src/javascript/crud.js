@@ -1,7 +1,6 @@
 import Post from "./post";
 const BACKEND_URL = 'http://localhost:3000/'
 
-// Data Rendering
 function renderCard(post) {
     const card = post.toCard()
     document.getElementById('posts').append(card)
