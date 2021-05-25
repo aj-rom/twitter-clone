@@ -1,11 +1,17 @@
-import Content from './content'
-import Comment from './comment'
+import Content from './content.js'
+import Comment from './comment.js'
+import getFormJSON from "./form.js";
+import { getCloseModalButton } from "./shared.js";
+import { addCommentToPost, likePost} from "./crud";
 
 // Like Emoticons
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-class Post extends Content {
+// Temp Array to Cache our JSON objects of tweets (posts)
+const POSTS = []
+
+export default class Post extends Content {
     constructor(id, name, content, createdAt, comments, likes) {
         super(id, name, content, createdAt);
         this.comments = comments
@@ -97,20 +103,34 @@ class Post extends Content {
     }
 }
 
-// Modal Management
-function clearModal() {
-    const modal = document.getElementById('modal')
-    modal.classList.add('hidden')
-    modal.childNodes.forEach(e => e.remove())
+function getCommentForm(post) {
+    let h4 = document.createElement('h4')
+    h4.innerText = 'Leave a Comment'
+
+    let form = document.createElement('form')
+    form.classList.add('comment-form')
+
+    Formio.icons = 'fontawesome'
+    Formio.createForm(form, getFormJSON("Comment", "Leave your thoughts here!",
+        "The comments for this tweet.", true, post.id))
+        .then(f => f.on('submit', sub => { addCommentToPost(sub.data).then(e => {
+            document.querySelector('button.danger').click()
+
+            let comment = sub.data
+            const date = new Date();
+            const ops = { minimumIntegerDigits: 2, useGrouping: false }
+            comment.created_at = `${date.getFullYear()}-${(date.getMonth() + 1)
+                .toLocaleString('en-US', ops)}-${date.getDate()
+                .toLocaleString('en-US', ops)}`
+            const id = parseInt(comment.post_id)
+            let post = POSTS.find(e => e.id === id)
+            post.comments.push(comment)
+            post.toModal()
+        })
+        }))
+
+    const div = document.createElement('div')
+    div.classList.add('form-container')
+    div.append(h4, form)
+    return div
 }
-
-function getCloseModalButton() {
-    const button = document.createElement('button')
-    button.textContent = 'Close'
-    button.classList.add('danger')
-    button.addEventListener('click', e => clearModal())
-
-    return button
-}
-
-export default Post

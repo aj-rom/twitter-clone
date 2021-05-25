@@ -1,6 +1,6 @@
-import Content from './content'
+import Content from './content.js'
 
-class Comment extends Content {
+export default class Comment extends Content {
     constructor(id, name, content, createdAt) {
         super(id, name, content, createdAt);
     }
@@ -19,5 +19,3 @@ class Comment extends Content {
         return li
     }
 }
-
-export default Comment

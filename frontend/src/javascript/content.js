@@ -1,4 +1,4 @@
-class Content {
+export default class Content {
     constructor(id, name, content, createdAt) {
         this.id = id
         this.name = name
@@ -11,5 +11,3 @@ class Content {
         return `( ${date[1]}/${date[2]}/${date[0]} )`
     }
 }
-
-export default Content
