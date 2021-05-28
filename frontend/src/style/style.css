@@ -122,6 +122,10 @@ div.hidden { display: none }
     margin: 0 auto;
 }
 
+.modal::-webkit-scrollbar {
+    display: none
+}
+
 .post-modal {
     text-align: center;
 }
