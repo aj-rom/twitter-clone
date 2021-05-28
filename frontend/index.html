@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="src/style/style.css">
 
     <script type="application/javascript" src="https://cdn.form.io/formiojs/formio.full.min.js" defer></script>
-    <script type="application/javascript" src="src/javascript/source.min.js" charset="UTF-8" defer></script>
+    <script type="application/javascript" src="src/javascript/index.js" charset="UTF-8" defer></script>
 </head>
 
 <body>
@@ -27,6 +27,11 @@
         </ul>
     </nav>
 
+    <label>
+        Search
+        <input type="text" id="search-field">
+        <input type="submit" value="Search" id="search">
+    </label>
     <main id="main" class="container">
         <div id="modal" class="modal container-fluid hidden"></div>
         <h1>Recent Tweets</h1>

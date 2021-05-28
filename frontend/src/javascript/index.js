@@ -139,7 +139,7 @@ class Comment extends Content {
 function clearModal() {
     const modal = document.getElementById('modal')
     modal.classList.add('hidden')
-    modal.childNodes.forEach(e => e.remove())
+    modal.innerHTML = ""
 }
 
 function getCloseModalButton() {
@@ -157,12 +157,15 @@ function renderCard(post) {
     document.getElementById('posts').append(card)
 }
 
+function renderTweets(tweets) {
+    tweets.forEach(e => renderCard(e))
+}
 function renderPosts(posts) {
     posts.forEach(e => renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments, e.likes)))
 }
 
 function fetchAllPosts() {
-    return fetch(BACKEND_URL)
+     fetch(BACKEND_URL)
         .then(e => e.json())
         .then(e => renderPosts(e))
         .catch(e => handleError(e))
@@ -346,3 +349,19 @@ function handleError(e) {
 document.addEventListener("DOMContentLoaded", () => {
     fetchAllPosts()
 })
+
+function search() {
+    const searchBar = document.getElementById('search-field')
+    const submitButton = document.getElementById('search')
+
+    submitButton.addEventListener('click', () => {
+        const val = searchBar.value
+        let tweets = POSTS.filter(e => e.content.includes(val))
+        const posts = document.getElementById('posts')
+        posts.innerHTML = ""
+        renderTweets(tweets)
+    })
+
+}
+
+search()

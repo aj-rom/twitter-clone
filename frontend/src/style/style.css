@@ -1,6 +1,8 @@
 /* Global Styling */
 :root {
-    --background: #000;
+    --background-light: #212121;
+    --background: #171717;
+    --background-dark: #131313;
     --primary: #1da1f2;
     --secondary: #1d96f2;
 }
@@ -10,6 +12,9 @@ body {
     color: white;
 }
 
+nav {
+    background-color: var(--background-dark);
+}
 /* Navigation */
 nav ul {
     margin-left: 0
