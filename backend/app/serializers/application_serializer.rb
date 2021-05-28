@@ -7,7 +7,7 @@ class ApplicationSerializer
     when Hash
       data[:data][:attributes]
     when Array
-      data[:data].map{ |x| x[:attributes] }
+      data[:data].map { |x| x[:attributes] }
     when nil
       nil
     else
@@ -16,7 +16,8 @@ class ApplicationSerializer
   end
 
   class << self
-    def has_one(resource, options = {})
+
+    def has_(resource, options = {})
       serializer = options[:serializer] || "#{resource.to_s.classify}Serializer".constantize
 
       attribute resource do |object|
@@ -24,12 +25,12 @@ class ApplicationSerializer
       end
     end
 
-    def has_many(resources, options = {})
-      serializer = options[:serializer] || "#{resources.to_s.classify}Serializer".constantize
+    def has_one(resource, options = {})
+      has_(resource, options)
+    end
 
-      attribute resources do |object|
-        serializer.new(object.try(resources)).to_h
-      end
+    def has_many(resources, options = {})
+      has_(resources, options)
     end
   end
 end
