@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.likes += 1
+    @post.likes += params[:val]
     @post.save
   end
 
