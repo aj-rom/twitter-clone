@@ -1,13 +1,10 @@
 import Post from "./post";
+import ReactDOM from 'react-dom'
 const BACKEND_URL = 'http://localhost:3000/'
 
-function renderCard(post) {
-    const card = post.toCard()
-    document.getElementById('posts').append(card)
-}
-
 function renderPosts(posts) {
-    posts.forEach(e => renderCard(new Post(e.id, e.name, e.content, e.created_at, e.comments, e.likes)))
+    const list = posts.map(e => <Post key={e.id} id={e.id} name={e.name} content={e.content} comments={e.comments} time={e.created_at} likes={e.likes}/>)
+    ReactDOM.render(list, document.getElementById('posts'))
 }
 
 function fetchAllPosts() {
@@ -29,17 +26,25 @@ function submitTweet(data) {
     return fetch(BACKEND_URL + '/posts', conf)
 }
 
-function likePost(id) {
+function operateLike(id, val) {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'PATCH',
-        body: JSON.stringify(id)
+        body: JSON.stringify({ id: id, val: val})
     }
 
     return fetch(`${BACKEND_URL}/posts/${id}`, config)
         .catch(e => console.log(e))
+}
+
+function unlikePost(id) {
+    return operateLike(id, -1)
+}
+
+function likePost(id) {
+    return operateLike(id, 1)
 }
 
 function addCommentToPost(comment) {
@@ -59,4 +64,4 @@ function handleError(e) {
     console.log(e)
 }
 
-export { BACKEND_URL, submitTweet, likePost, addCommentToPost, fetchAllPosts }
+export { BACKEND_URL, submitTweet, likePost, unlikePost, addCommentToPost, fetchAllPosts }

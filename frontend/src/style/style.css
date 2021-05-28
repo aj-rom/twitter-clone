@@ -180,11 +180,12 @@ div.hidden { display: none }
 }
 
 .form-container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 .comment-form {
+    display: inline-grid;
     align-self: center;
     min-width: 600px;
     text-align: left;

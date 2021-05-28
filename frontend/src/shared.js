@@ -12,3 +12,8 @@ export function clearModal() {
     modal.classList.add('hidden')
     modal.childNodes.forEach(e => e.remove())
 }
+
+export function createdAt(time) {
+    let date = time.substring(0, 10).split('-')
+    return `( ${date[1]}/${date[2]}/${date[0]} )`
+}
