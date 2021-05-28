@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
-  before_action :get_post, only: %i[show update new_comment]
+  before_action :find_post, only: %i[show update new_comment]
 
   def index
-    latest_posts = Post.order('created_at DESC')
+    latest_posts = Post.order('created_at DESC').limit(10)
     render json: PostSerializer.new(latest_posts).to_h
   end
 
@@ -31,7 +33,7 @@ class PostsController < ApplicationController
 
   private
 
-  def get_post
+  def find_post
     @post ||= Post.find_by(id: params[:id])
   end
 
@@ -42,5 +44,4 @@ class PostsController < ApplicationController
   def post_params
     params.permit(:name, :content)
   end
-
 end
