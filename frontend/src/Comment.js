@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { createdAt } from "./shared";
+import { createdAt } from "./Shared";
 
 export default class Comment extends Component {
     constructor(props) {

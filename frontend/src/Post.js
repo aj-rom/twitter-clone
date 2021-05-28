@@ -1,6 +1,6 @@
-import Comment from './comment.js'
-import {createdAt} from "./shared.js";
-import {likePost, unlikePost} from "./crud";
+import Comment from './Comment.js'
+import {createdAt} from "./Shared.js";
+import {likePost, unlikePost} from "./Crud";
 import React, {Component} from "react";
 import ReactDOM from 'react-dom'
 import ContentForm from "./ContentForm";

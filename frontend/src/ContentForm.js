@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import {addCommentToPost, submitTweet} from "./crud";
+import {addCommentToPost, submitTweet} from "./Crud";
 
 export default class ContentForm extends Component {
     constructor(props) {

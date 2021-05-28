@@ -1,4 +1,4 @@
-import Post from "./post";
+import Post from "./Post";
 import ReactDOM from 'react-dom'
 const BACKEND_URL = 'http://localhost:3000/'
 

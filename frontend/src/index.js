@@ -1,4 +1,4 @@
-import { fetchAllPosts } from "./crud.js";
+import { fetchAllPosts } from "./Crud.js";
 import './style/style.css'
 import ReactDOM from 'react-dom'
 import App from "./App";
