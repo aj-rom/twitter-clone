@@ -87,13 +87,13 @@ GEM
     mini_mime (1.0.3)
     minitest (5.14.4)
     msgpack (1.4.2)
-    nio4r (2.5.7)
+    nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     pg (1.2.3)
-    puma (5.3.1)
+    puma (5.5.1)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -157,7 +157,7 @@ DEPENDENCIES
   fast_jsonapi
   listen (~> 3.3)
   pg (~> 1.1)
-  puma (~> 5.0)
+  puma (~> 5.5)
   rack-cors
   rails (~> 6.1.3, >= 6.1.3.2)
   spring
